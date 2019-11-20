@@ -1,47 +1,56 @@
 def nascimento(data):
-    elementos = data.slipt("/")
-    dic_data = {"ANO": elementos[0],
-                "MES": elementos[1],
-                "DIA": elementos[2]
-                }
-    return dic_data
+    lista_elementos = data.split("/")
 
-def var_booleana(ativo)
-    if ativo[-1] == "/n"
-        ativo = [:-1]
-        if ativo == "SIM"
-            return True
-        else:
-            return False
-    else:
-        if ativo = [:-1]
-            return True
-        else:
-            return False
+    ano = int(lista_elementos[0])
+    mes = int(lista_elementos[1])
+    dia = int(lista_elementos[2])
 
-def func_str(string)
+    data_spl = {"Ano": ano, "Mes": mes, "Dia": dia}
+
+    return data_spl
+
+def var_booleana(campo):
+    if len(campo) == 4:
+        campo = campo[:3]
+    
+    if campo[0] == "S":
+        return True
+    return False
+
+def func_str(string):
     lista_str = string.split(":")
     return lista_str
 
-def descritor_arq(arq)
-        lista_str = arq.readlines()
-        return lista_str
-#Não foi considerado a necessidade da presença do "/n" no final de cada linha do arquivo direcionado para cada objeto da lista.
+def descritor_arq(arq):
+    arq.seek(0)
+    lista_linhas = arq.readlines()
+    
+    return lista_linhas
 
 def main():
-    abrir = open ("cadastro.txt", "r")
-    fazer_lista = descritor_arq(abrir)
-    lista_str = func_str(fazer_lista)
-    lista_dic = []
+    pacientes = []
+    arq = open("cadastro.txt", "r")
+
+    dic_cadastro = {"CPF":"",
+             "Nome":"",
+             "Data_de_nascimento":"",
+             "Data_de_cadastro":"",
+             "Ativo":""}
     
-    for i in lista_str
-        dic = {"CPF": lista_str[0]
-            "NOME": lista_str[1]
-            "NASCIMENTO": nascimento(lista_str[2]),
-            "CADASTRO": nascimento(lista_str[3]),
-            "ATIVO": var_booleana(lista_str[4])
-            }
-        lista_dic.append(dic.copyC)
-    print(lista_dic)
-    
+    arq_linhas = descritor_arq(arq)
+
+    for i in range(len(arq_linhas)):
+        dic_atual = dic_cadastro.copy()
+        dados_atuais = func_str(arq_linhas[i])
+        dic_atual["CPF"] = dados_atuais[0]
+        dic_atual["Nome"] = dados_atuais[1]
+        dic_atual["Data_de_nascimento"] = nascimento(dados_atuais[2])
+        dic_atual["Data_de_cadastro"] = nascimento(dados_atuais[3])
+        dic_atual["Ativo"] = var_booleana(dados_atuais[4])
+        pacientes.append(dic_atual)
+
+    print(pacientes)
+
+    arq.close()
+
 main()
